@@ -8,9 +8,7 @@ def limpiar_pantalla():
 
 # ----- Conectarse a la base de datos -----
 conexion = sqlite3.connect("gamma.db")
-#conn es igual a conexion
 cursor = conexion.cursor()
-# c es igual a cursor
 
 # ===== TABLAS =====
 # ----- jugadores -----
@@ -62,7 +60,8 @@ def agregar_jugador():
     cursor.execute("INSERT INTO jugadores (nombre, vida, dinero, porcentaje) VALUES (?, ?, ?, ?)",
         (nombre, vida, dinero, porcentaje))
     conexion.commit()
-    print(f"\nJugador '{nombre}' agregado correctamente.")
+    print(f"\n========== Jugador '{nombre}' agregado correctamente ==========")
+    input("presiona Enter para continuar...")
 
 # -----  R -----
 
@@ -77,8 +76,10 @@ def listar_jugador():
         for jugador in jugadores:
             print(f"ID: {jugador[0]} \nNombre: {jugador[1]} \nVida: {jugador[2]} \nDinero: {jugador[3]} \nPorcentaje: {jugador[4]}%")
             print("-"*40)
+        input("presiona Enter para continuar...")
     else:
         print("No hay jugadores existentes")
+        input("presiona Enter para continuar...")
 
 # -----  U -----
 
@@ -108,10 +109,11 @@ def actualizar_jugador():
         case _:
             print("----- OPCIÓN NO VALIDA -----")
             print("----- INTENTELO NUEVAMENTE -----")
-            time.sleep(4)
+            input("presiona Enter para continuar...")
             return
     conexion.commit()
     print("\n===== jugador actualizado correctamente =====")
+    input("presiona Enter para continuar...")
 
 # -----  D -----
 
@@ -124,10 +126,11 @@ def eliminar_jugador():
         cursor.execute("DELETE FROM jugadores WHERE id_jugador =?", (id_jugador,))
     else:
         print("===== jugador no eliminado =====")
-        time.sleep(4)
+        input("presiona Enter para continuar...")
         return
     conexion.commit()
     print("===== Jugador eliminado correctamente =====")
+    input("presiona Enter para continuar...")
 
 # ===== CHECKPOINT 2 =====
 # ===== INVENTARIO =====
@@ -150,7 +153,8 @@ def agregar_inventario():
     cursor.execute("INSERT INTO inventario (nombre, poder, uso, cantidad, id_jugador) VALUES (?, ?, ?, ?, ?)",
               (nombre, poder, uso, cantidad, id_jugador))
     conexion.commit()
-    print(f"\nÍtem '{nombre}' agregado correctamente.")
+    print(f"\n========== Ítem '{nombre}' agregado correctamente ==========")
+    input("presiona Enter para continuar...")
 
 # ===== R =====
 
@@ -164,8 +168,10 @@ def listar_inventario():
         for item in items:
             print(f"ID: {item[0]} \nNombre: {item[1]} \nPoder: {item[2]} \nUso: {item[3]} \nCantidad: {item[4]}")
             print("-"*40)
+            input("presiona Enter para continuar...")
     else:
         print("No hay items existentes")
+        input("presiona Enter para continuar...")
 
 # ===== U =====
 
@@ -195,7 +201,7 @@ def actualizar_inventario():
         case _:
             print("----- OPCIÓN NO VALIDA -----")
             print("----- INTENTELO NUEVAMENTE -----")
-            time.sleep(4)
+            input("presiona Enter para continuar...")
             return
     conexion.commit()
     print("\n===== item actualizado correctamente =====")
@@ -213,10 +219,11 @@ def eliminar_inventario():
         cursor.execute("DELETE FROM inventario WHERE id_inventario =?", (id_item,))
     else:
         print("===== Item no eliminado =====")
-        time.sleep(4)
+        input("presiona Enter para continuar...")
         return
     conexion.commit()
     print("===== Item Eliminado Correctamente =====")
+    input("presiona Enter para continuar...")
 
 # ===== CHECKPOINT 3 =====
 # ===== C =====
@@ -237,7 +244,8 @@ def agregar_habilidad():
     cursor.execute("INSERT INTO habilidades (nombre, elemento, nivel, desbloqueada, elementos_compatibles, id_jugador) VALUES (?, ?, ?, ?, ?, ?)",
               (nombre, elemento, nivel, desbloqueada, elementos_compatibles, id_jugador))
     conexion.commit()
-    print(f"\nHabilidad '{nombre}' agregada correctamente.")
+    print(f"\n========== Habilidad '{nombre}' agregada correctamente ==========")
+    input("presiona Enter para continuar...")
 
 # ===== R =====
 
@@ -251,8 +259,10 @@ def listar_habilidad():
         for habilidad in habilidades:
             print(f"ID: {habilidad[0]} \nNombre: {habilidad[1]} \nElemento: {habilidad[2]} \nNivel: {habilidad[3]} \nDesbloqueada: {habilidad[4]} \nElementos compatibles: {habilidad[5]}")
             print("-"*40)
+            input("presiona Enter para continuar...")
     else:
         print("No hay habilidades existentes")
+        input("presiona Enter para continuar...")
 
 # ===== U =====
 
@@ -283,6 +293,7 @@ def actualizar_habilidad():
                 cursor.execute("UPDATE habilidades SET desbloqueada = ? WHERE id_habilidades = ?", (nuevo_valor, id_poder))
             else:
                 print("Respuesta no valida")
+                input("presiona Enter para continuar...")
                 return
         case 5:
             nuevo_valor = float(input("Nuevos elementos compatibles: "))
@@ -290,10 +301,11 @@ def actualizar_habilidad():
         case _:
             print("----- OPCIÓN NO VALIDA -----")
             print("----- INTENTELO NUEVAMENTE -----")
-            time.sleep(4)
+            input("presiona Enter para continuar...")
             return
     conexion.commit()
     print("\n===== habilidad actualizada correctamente =====")
+    input("presiona Enter para continuar...")
 
 # ===== D =====
 
@@ -308,12 +320,136 @@ def eliminar_habilidad():
         cursor.execute("DELETE FROM habilidades WHERE id_habilidades =?", (id_poder,))
     else:
         print("===== Habilidad no eliminado =====")
-        time.sleep(4)
+        input("presiona Enter para continuar...")
         return
     conexion.commit()
     print("===== Habilidad Eliminado Correctamente =====")
+    input("presiona Enter para continuar...")
 
-eliminar_habilidad()
+# ===== CHECKPOINT 4 =====
+# ===== MENÚ =====
 
+def menu():
+    while True:
+        limpiar_pantalla()
+        print("=============================")
+        print("      MENÚ GAMMA         ")
+        print("=============================")
+        print("1. Jugadores")
+        print("2. Inventario")
+        print("3. Habilidades")
+        print("4. Salir")
+        
+        opcion = input("\nElige una opción: ")
+        
+        match opcion:
+            case "1":
+                menu_jugadores()
+            case "2":
+                menu_inventario()
+            case "3":
+                menu_habilidades()
+            case "4":
+                print("\nCerrando Menú... ¡Hasta luego!")
+                conexion.close()
+                break
+            case _:
+                print("\nOpción no válida.")
+                input("\nPresiona Enter para continuar...")
 
-# agregar el 'time.sleep' a los que requieran
+# ===== SUB-MENÚS =====
+# ----- Jugadores -----
+
+def menu_jugadores():
+    while True:
+        limpiar_pantalla()
+        print("=============================")
+        print("          JUGADORES          ")
+        print("=============================")
+        print("1. Agregar jugador")
+        print("2. Listar jugadores")
+        print("3. Actualizar jugador")
+        print("4. Eliminar jugador")
+        print("5. Volver")
+        
+        opcion = input("\nElige una opción: ")
+        
+        match opcion:
+            case "1":
+                agregar_jugador()
+            case "2":
+                listar_jugador()
+            case "3":
+                actualizar_jugador()
+            case "4":
+                eliminar_jugador()
+            case "5":
+                break
+            case _:
+                print("\nOpción no válida.")
+                input("\nPresiona Enter para continuar...")
+
+# ----- Inventario -----
+
+def menu_inventario():
+    while True:
+        limpiar_pantalla()
+        print("=============================")
+        print("         INVENTARIO          ")
+        print("=============================")
+        print("1. Agregar ítem")
+        print("2. Listar inventario")
+        print("3. Actualizar ítem")
+        print("4. Eliminar ítem")
+        print("5. Volver")
+        
+        opcion = input("\nElige una opción: ")
+        
+        match opcion:
+            case "1":
+                agregar_inventario()
+            case "2":
+                listar_inventario()
+            case "3":
+                actualizar_inventario()
+            case "4":
+                eliminar_inventario()
+            case "5":
+                break
+            case _:
+                print("\nOpción no válida.")
+                input("\nPresiona Enter para continuar...")
+
+# ----- Habilidades -----
+
+def menu_habilidades():
+    while True:
+        limpiar_pantalla()
+        print("=============================")
+        print("        HABILIDADES          ")
+        print("=============================")
+        print("1. Agregar habilidad")
+        print("2. Listar habilidades")
+        print("3. Actualizar habilidad")
+        print("4. Eliminar habilidad")
+        print("5. Volver")
+        
+        opcion = input("\nElegí una opción: ")
+        
+        match opcion:
+            case "1":
+                agregar_habilidad()
+            case "2":
+                listar_habilidad()
+            case "3":
+                actualizar_habilidad()
+            case "4":
+                eliminar_habilidad()
+            case "5":
+                break
+            case _:
+                print("\nOpción no válida.")
+                input("\nPresioná Enter para continuar...")
+
+if __name__ == "__main__":
+    menu()
